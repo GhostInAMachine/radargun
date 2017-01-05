@@ -30,6 +30,8 @@
       <distribution.name>RadarGun-${project.version}</distribution.name>
       <distribution.artifact>target/distribution/${distribution.name}</distribution.artifact>
       <plugins.chm/>
+      <plugins.gemfire/>
+      <plugins.redis/>
       <plugins.ehcache/>
       <plugins.hazelcast/>
       <plugins.jbosscache/>

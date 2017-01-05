@@ -29,6 +29,9 @@ public class Hazelcast3ClientService implements Lifecycle {
     @Property(name = "nearCache", doc = "Enable near cache")
     protected boolean enableNearCache = false;
 
+    @Property(name = "nearCacheSize", doc = "Near cache size")
+    protected int nearCacheSize = 10000;
+
     private HazelcastInstance hazelcastInstance;
 
     @ProvidesTrait
@@ -46,9 +49,12 @@ public class Hazelcast3ClientService implements Lifecycle {
         ClientConfig config = new ClientConfig();
 
         if (enableNearCache) {
-            config.addNearCacheConfig(new NearCacheConfig(mapName));
-            config.getNetworkConfig().setSmartRouting(true);
+            NearCacheConfig nearCacheConfig = new NearCacheConfig(mapName);
+            nearCacheConfig.setMaxSize(nearCacheSize);
+            config.addNearCacheConfig(nearCacheConfig);
         }
+
+        config.getNetworkConfig().setSmartRouting(true);
 
         for (String address : addresses) {
             config.getNetworkConfig().addAddress(address);
